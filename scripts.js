@@ -17,12 +17,14 @@ let operator = "";
 let firstOperand = "";
 let secondOperand = "";
 let result = "";
-let decimalCheck = false;;
+
 buttons.forEach(button => button.addEventListener("click", (e) => {
     //if it's a decimal, check that there isn't already a decimal, break if there is
       
     switch (button.className){
+        //need to change this to only allow one decimal per operand (maybe check code before/after operand or something)
         case "button operand decimal":
+            let decimalCheck = false;;
             for (let i = 0; i < display.textContent.length; i++){
                 if (display.textContent[i] === '.') {
                     decimalCheck = true;
@@ -124,7 +126,11 @@ buttons.forEach(button => button.addEventListener("click", (e) => {
             break;
         case "button clear":
             clearScreen();
-            break;  
+            break; 
+        case "button backspace":
+            display.textContent = display.textContent.slice(0,display.textContent.length-1);
+            break;
+
     }
 
 }));

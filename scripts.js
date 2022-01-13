@@ -17,8 +17,29 @@ let operator = "";
 let firstOperand = "";
 let secondOperand = "";
 let result = "";
+let decimalCheck = false;;
 buttons.forEach(button => button.addEventListener("click", (e) => {
+    //if it's a decimal, check that there isn't already a decimal, break if there is
+      
     switch (button.className){
+        case "button operand decimal":
+            for (let i = 0; i < display.textContent.length; i++){
+                if (display.textContent[i] === '.') {
+                    decimalCheck = true;
+                }
+            }
+            if (decimalCheck){
+                break;
+            }  
+            else {
+                if (display.textContent == result && result != ""){
+                    clearScreen();
+                }
+                display.textContent += button.textContent;
+                
+                break;
+            }
+        
         case "button operand":
             //if the result is displayed on the screen, clear it
             if (display.textContent == result && result != ""){
@@ -29,19 +50,21 @@ buttons.forEach(button => button.addEventListener("click", (e) => {
             break;
             
         case "button operator":
-            //set the operator to the button that was called
-            operator = button.textContent;
+            
+
+            //if the display is empty, don't do anything
             //check whether the display already contains an operator
             let operatorCheck = false;
             for (let i = 0; i < display.textContent.length; i++){
                 if (isOperator(display.textContent[i])){
+                    operator = display.textContent[i];
                     operatorCheck = true;
                 }
             }
-            //if the display does not already contain an operator, add it to the end of display
+            //if the display does not already contain an operator, add it to the end of display and set the operator value to the button content
             if (!operatorCheck){
-                
-                //if the final value on display is an operator, replace it
+                operator = button.textContent;
+                //if the final value on display is already an operator, replace it
                 if (isOperator(display.textContent[display.textContent.length-1])){
                     display.textContent = display.textContent.slice(0,display.textContent.length-1) + operator;
                 }
@@ -50,20 +73,23 @@ buttons.forEach(button => button.addEventListener("click", (e) => {
                     display.textContent += operator;
                 }
             }
-            //if it already contains an operator, call the operate function, add the result to the display with the new operator at the end
+            //if it already contains an operator, call the operate function against the stuff already there and add the result to the display with the new operator at the end
             else{
+                let newOperator = button.textContent;
+                //if the final character already an operator, call operate against the firstOperand twice 
                 if (isOperator(display.textContent[display.textContent.length-1])){
                     firstOperand = display.textContent.slice(0, display.textContent.indexOf(operator));
                     result = operate(operator,firstOperand,firstOperand);
-                    display.textContent = result;
+                    display.textContent = result + newOperator;
                 }
+                //if the final character is not an operator, call the operator against the function and display the result with the new operator
                 else {
                     //find everything before the operator for firstOperand
                     firstOperand = display.textContent.slice(0, display.textContent.indexOf(operator));
                     //find everything after the operator for secondOperand
                     secondOperand = display.textContent.slice(display.textContent.indexOf(operator)+1);
                     result = operate(operator, firstOperand, secondOperand);
-                    display.textContent = result + operator;
+                    display.textContent = result + newOperator;
                 }
             }
             
@@ -71,17 +97,29 @@ buttons.forEach(button => button.addEventListener("click", (e) => {
         case "button equals":
             //if the final value on display is an operator, call the operate function against the first values (e.g. 1+ = will calculate 1+1)
             if (isOperator(display.textContent[display.textContent.length-1])){
+                operator = display.textContent[display.textContent.length-1];
                 firstOperand = display.textContent.slice(0, display.textContent.indexOf(operator));
                 result = operate(operator,firstOperand,firstOperand);
                 display.textContent = result;
             }
             else {
-                //find everything before the operator for firstOperand
-                firstOperand = display.textContent.slice(0, display.textContent.indexOf(operator));
-                //find everything after the operator for secondOperand
-                secondOperand = display.textContent.slice(display.textContent.indexOf(operator)+1);
-                result = operate(operator, firstOperand, secondOperand);
-                display.textContent = result;
+                //operator should be what's on the screen
+                let operatorCheck = false;
+                for (let i = 0; i < display.textContent.length; i++){
+                    if (isOperator(display.textContent[i])){
+                        operator = display.textContent[i];
+                        operatorCheck = true;
+                    }
+                }
+                if (operatorCheck === true){
+                    //find everything before the operator for firstOperand
+                    firstOperand = display.textContent.slice(0, display.textContent.indexOf(operator));
+                    //find everything after the operator for secondOperand
+                    secondOperand = display.textContent.slice(display.textContent.indexOf(operator)+1);
+                    result = operate(operator, firstOperand, secondOperand);
+                    display.textContent = result;
+                }
+                else {break;}
             }
             break;
         case "button clear":
@@ -105,14 +143,15 @@ const clearScreen = () => {
 
 
 const operate = (operator, firstOperand, secondOperand) => {
+    let result;
     firstOperand = parseFloat(firstOperand);
     secondOperand = parseFloat(secondOperand);
     switch (operator){
         case "+":
-            return firstOperand + secondOperand;
+            result = firstOperand + secondOperand;
             break;
         case "-":
-            return firstOperand - secondOperand;
+            result = firstOperand - secondOperand;
             break;
         case "*":
             return firstOperand * secondOperand;
@@ -123,8 +162,9 @@ const operate = (operator, firstOperand, secondOperand) => {
             }
             else 
                 {
-                    return firstOperand / secondOperand;
+                    result = firstOperand / secondOperand;
                 }
             break; 
     }
+    return Number((result).toFixed(10))
 }

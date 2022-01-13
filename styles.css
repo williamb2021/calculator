@@ -8,13 +8,14 @@
     font-display: swap;
 }
 
-
-.calculator, html, body{
+ html, body{
     height: 100%;
-    font-family: 'Digital-7';
+}
+
+body{
     display: flex;
-    flex-direction: column;
-    
+    align-items: center;
+    justify-content: center;
 }
 
 .calculator{
@@ -34,19 +35,24 @@
     display: flex;
     justify-content: right;
     align-items: center;
-    
+    font-family: 'Digital-7';
     padding-right: 10px;
     font-size: 35px;
 }
 
-.inputs {
+.buttons {
     display: flex;
     flex-wrap: wrap;
     flex:1;
-    margin: 0px 15px;    
+    margin: 0px 15px;  
+      
 }
 
-.input{
+button {
+    font-family: 'Digital-7';
+}
+
+.button{
     flex: 20%;
     background-color: rgba(233, 233, 233, 0.945);
     margin: 5px;
@@ -55,11 +61,12 @@
     align-items: center;
     border-radius: 10px;
     font-size: 24px;
+    
 }
 
 .clear{
     background-color: rgba(233, 233, 233, 0.945);
-    margin: 15px;
+    margin: 15px 5px;
     padding: 15px;
     border-radius: 10px;
     display: flex;

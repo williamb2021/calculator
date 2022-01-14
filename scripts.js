@@ -1,5 +1,5 @@
 
-const operators = ["+","-","*","÷"];
+const operators = ["+","-","*","÷","/"];
 const operands = ["1","2","3","4","5","6","7","8","9","0","."];
 
 const isOperator = a => {
@@ -8,6 +8,22 @@ const isOperator = a => {
 const isOperand = a => {
     return operands.includes(a);  
 }
+
+const containsOperator = () => {
+    for (let i=0; i < display.textContent.length; i++){
+        if(isOperator(display.textContent.charAt(i))){
+            return true;
+        }
+    }
+};
+
+const getOperatorLocation = () => {
+    for (let i=0; i < display.textContent.length; i++){
+        if(isOperator(display.textContent.charAt(i))){
+            return i;
+        }
+    }
+};
 
 const buttons = document.querySelectorAll(".button");
 const display = document.querySelector(".display");
@@ -18,33 +34,34 @@ let firstOperand = "";
 let secondOperand = "";
 let result = "";
 
-/*
-0 - 48/96
-1 - 49/87
-2 - 50/98
-3 - 51/99
-*/
-
 window.addEventListener('keydown', function(e){
     console.log(e.key);
     const button = document.querySelector(`button[id='${e.key}']`);
     button.click();
 });
 
-
 buttons.forEach(button => button.addEventListener("click", (e) => {
     //if it's a decimal, check that there isn't already a decimal, break if there is
-      
     switch (button.className){
-        //need to change this to only allow one decimal per operand (maybe check code before/after operand or something)
         case "button operand decimal":
-            let decimalCheck = false;;
-            for (let i = 0; i < display.textContent.length; i++){
-                if (display.textContent[i] === '.') {
-                    decimalCheck = true;
+            //if there's an operator in the display, check whether there's a period after the operator or not
+            if(containsOperator(display.textContent)){
+                let afterOperator = display.textContent.slice(getOperatorLocation()+1)
+                if (afterOperator.includes(".")){
+                    break;
+                }
+                else {
+                    if (display.textContent == result && result != ""){
+                        clearScreen();
+                    }
+                    display.textContent += button.textContent;
+                    
+                    break;
                 }
             }
-            if (decimalCheck){
+
+            //get the text after the operator
+            if (display.textContent.includes(".")){
                 break;
             }  
             else {

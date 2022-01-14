@@ -64,7 +64,7 @@ button {
     
 }
 
-.clear, .backspace{
+.clear{
     margin: 15px 5px;
     padding: 15px;
     border-radius: 10px;
@@ -78,7 +78,7 @@ button {
     background-color: lightgoldenrodyellow;
 }
 
-.bottom-row{
+.bottom-row, .equals-row{
     display: flex;
     margin: 0 15px;
 }

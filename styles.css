@@ -1,8 +1,8 @@
 @font-face {
     /* font source fontspace.com https://www.fontspace.com/digital-7-font-f7087  */
     font-family: 'Digital-7';
-    src: url('/fonts/Digital-7.woff2') format('woff2'),
-        url('/fonts/Digital-7.woff') format('woff');
+    src: url('./fonts/Digital-7.woff2') format('woff2'),
+        url('./fonts/Digital-7.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

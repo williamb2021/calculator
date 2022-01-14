@@ -18,6 +18,20 @@ let firstOperand = "";
 let secondOperand = "";
 let result = "";
 
+/*
+0 - 48/96
+1 - 49/87
+2 - 50/98
+3 - 51/99
+*/
+
+window.addEventListener('keydown', function(e){
+    console.log(e.key);
+    const button = document.querySelector(`button[id='${e.key}']`);
+    button.click();
+});
+
+
 buttons.forEach(button => button.addEventListener("click", (e) => {
     //if it's a decimal, check that there isn't already a decimal, break if there is
       
